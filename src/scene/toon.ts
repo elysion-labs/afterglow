@@ -103,8 +103,10 @@ float wCover = 0.0;
 
   // Moss grows on top of the grime: creeps up from the ground, settles on ledges.
   float m = wFbm(vWPos * 5.0 + 7.3) * 0.8 + (1.0 - smoothstep(0.0, 1.1, vWPos.y)) * 0.6 + up * 0.15;
-  float mThr = 1.3 - uMoss * 0.75;
-  float moss = smoothstep(mThr, mThr + 0.03, m) * dirty;
+  // m peaks around 1.5 on low, up-facing ledges, so the threshold must start
+  // above that: a freshly swept grave (uMoss = 0) shows no moss at all.
+  float mThr = 1.6 - uMoss * 1.05;
+  float moss = smoothstep(mThr, mThr + 0.03, m) * step(0.001, uMoss) * dirty;
   vec3 mossCol = mix(vec3(0.12, 0.3, 0.05), vec3(0.3, 0.52, 0.08), step(0.5, wNoise(vWPos * 24.0)));
   diffuseColor.rgb = mix(diffuseColor.rgb, mossCol, moss);
   wCover = max(dust, moss);
