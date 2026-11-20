@@ -40,6 +40,7 @@ root.innerHTML = `
       <li><span>擦拭</span><i class="clean"><b id="clean"></b></i></li>
     </ul>
     <p class="hint" id="hint"></p>
+    <p class="muted">双击旁边的墓碑可直接前往，按 Esc 返回墓园。</p>
   </div>
 </section>
 

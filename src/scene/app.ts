@@ -121,6 +121,7 @@ export class GraveApp {
     el.addEventListener("pointermove", this.onPointerMove);
     el.addEventListener("pointerup", this.onPointerUp);
     el.addEventListener("pointercancel", this.onPointerUp);
+    el.addEventListener("dblclick", this.onDoubleClick);
     el.addEventListener("pointerleave", () => this.setHovered(null));
     el.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -307,7 +308,7 @@ export class GraveApp {
     }
   }
 
-  private setPointer(e: PointerEvent): void {
+  private setPointer(e: MouseEvent): void {
     const rect = this.renderer.domElement.getBoundingClientRect();
     this.pointer.set(
       ((e.clientX - rect.left) / rect.width) * 2 - 1,
@@ -363,11 +364,13 @@ export class GraveApp {
     if (e.buttons !== 0 || this.tween) return;
     let cursor = "";
     let hover: Tombstone | null = null;
-    if (this.focused && this.focused.weeds.pick(this.raycaster.ray)) cursor = "grab";
-    else if (this.hitStone()) cursor = "crosshair";
-    else {
+    if (this.focused) {
+      // While visiting a grave, neighbours are not click targets (see onDoubleClick).
+      if (this.focused.weeds.pick(this.raycaster.ray)) cursor = "grab";
+      else if (this.hitStone()) cursor = "crosshair";
+    } else {
       const pick = this.cemetery.pick(this.raycaster.ray);
-      if (pick && pick.grave !== this.focused) {
+      if (pick) {
         hover = pick.grave;
         cursor = "pointer";
       }
@@ -386,8 +389,20 @@ export class GraveApp {
       this.checkDone();
       return;
     }
+    // A single click only opens a grave from the overview; while focused, stray
+    // clicks around the stone must not whisk the visitor away.
+    if (this.focused || this.tween) return;
     if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > CLICK_SLOP) return;
     this.setPointer(e);
+    const pick = this.cemetery.pick(this.raycaster.ray);
+    if (pick) this.focusGrave(pick.grave);
+  };
+
+  /** While focused, moving to another grave takes a deliberate double click. */
+  private onDoubleClick = (e: MouseEvent): void => {
+    if (!this.focused || this.tween) return;
+    this.setPointer(e);
+    if (this.hitStone() || this.focused.weeds.pick(this.raycaster.ray)) return;
     const pick = this.cemetery.pick(this.raycaster.ray);
     if (pick && pick.grave !== this.focused) this.focusGrave(pick.grave);
   };
