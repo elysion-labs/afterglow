@@ -15,21 +15,21 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import { PITCH_Z, PLOT_D, PLOT_W, type Rect, layoutCemetery, rowZ } from "../model/layout.ts";
 import type { Streamer } from "../model/streamers.ts";
 import { createRng } from "../model/weathering.ts";
-import { GATE_HALF_WIDTH, buildAislePath, buildFence, buildGate } from "./enclosure.ts";
+import { ENTRANCE_HALF_WIDTH, PATH_HALF_WIDTH, buildAislePath, buildFence } from "./enclosure.ts";
 import { type TimeUniform, createLawn } from "./grass.ts";
 import { GRAVE_HEIGHT, OUTLINE_LAYER, Tombstone } from "./tombstone.ts";
 import { toonMaterial } from "./toon.ts";
 
 /** Each grave sits in its own kerbed gravel plot. */
 const PLOT = { w: PLOT_W, d: PLOT_D, kerb: 0.1, kerbH: 0.09, gap: 0.6, graveZ: -0.3 };
-/** Half width of the stepping-stone path; no lawn grows there. */
-const PATH_HALF = 0.6;
+/** The path runs this far out past the entrance. */
+const APPROACH = 3;
 
 export class Cemetery {
   readonly group = new Group();
   /** Graves in `streamers.json` order. */
   readonly graves: Tombstone[] = [];
-  /** The fenced area; the gate stands at (0, bounds.maxZ). */
+  /** The fenced area; the entrance is at (0, bounds.maxZ). */
   readonly bounds: Rect;
   private readonly byUid = new Map<string, Tombstone>();
   private readonly boxes: Box3[] = [];
@@ -75,13 +75,12 @@ export class Cemetery {
     });
     this.group.add(kerbs, gravel);
 
-    // Enclosure: fence sized to the layout, gate at the front, a path down the aisle.
+    // Enclosure: stone balustrade sized to the layout, open at the front, and a
+    // flagstone path from just outside the entrance down the aisle.
     const fence = layout.fence;
+    const pathStart = fence.maxZ + APPROACH;
     const pathEnd = layout.plots.minZ - PLOT.d / 2;
-    this.group.add(buildFence(fence, GATE_HALF_WIDTH), buildAislePath(fence.maxZ, pathEnd));
-    const gate = buildGate("毕业纪念园");
-    gate.position.z = fence.maxZ;
-    this.group.add(gate);
+    this.group.add(buildFence(fence, ENTRANCE_HALF_WIDTH), buildAislePath(pathStart, pathEnd));
 
     // Plots grouped by row so the lawn can skip them cheaply.
     const rows = new Map<number, number[]>();
@@ -95,7 +94,7 @@ export class Cemetery {
           minZ: fence.minZ - margin,
           maxZ: fence.maxZ + margin,
           exclude: (x, z) => {
-            if (Math.abs(x) < PATH_HALF && z < fence.maxZ + 0.5 && z > pathEnd) return true;
+            if (Math.abs(x) < PATH_HALF_WIDTH + 0.03 && z < pathStart && z > pathEnd) return true;
             const row = Math.round(-z / PITCH_Z);
             if (Math.abs(z - rowZ(row)) > PLOT.d / 2) return false;
             return (rows.get(row) ?? []).some((px) => Math.abs(x - px) < PLOT.w / 2);

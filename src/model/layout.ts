@@ -9,11 +9,11 @@ export const COLUMNS = 8;
 export const PITCH_X = 3.2;
 /** Rows are deep enough for the focus camera to fit between them. */
 export const PITCH_Z = 4.2;
-/** Extra width of the central aisle that leads from the gate. */
+/** Extra width of the central aisle that leads from the entrance. */
 export const AISLE = 1.6;
 export const PLOT_W = 2.5;
 export const PLOT_D = 2.4;
-/** Space inside the fence around the plots, and the forecourt behind the gate. */
+/** Space inside the fence around the plots, and the forecourt behind the entrance. */
 export const FENCE_MARGIN = 2.2;
 export const FORECOURT = 5;
 
@@ -30,7 +30,7 @@ export interface CemeteryLayout {
   rows: number;
   /** Extents of the plot centres. */
   plots: Rect;
-  /** Fence rectangle; the gate sits at (0, fence.maxZ). */
+  /** Fence rectangle; the entrance is at (0, fence.maxZ). */
   fence: Rect;
 }
 
