@@ -313,7 +313,7 @@ export function buildGate(title: string): Group {
 }
 
 // ---------------------------------------------------------------------------
-// Aisle and year markers
+// Aisle
 // ---------------------------------------------------------------------------
 
 /** Irregular stepping stones down the central aisle from z0 (gate) to z1 (back). */
@@ -340,25 +340,4 @@ export function buildAislePath(z0: number, z1: number): InstancedMesh {
   im.receiveShadow = true;
   im.layers.enable(OUTLINE_LAYER);
   return im;
-}
-
-/** Wooden signpost announcing a year section, readable from both sides. */
-export function buildYearMarker(label: string): Group {
-  const g = new Group();
-  const wood = toonMaterial({ color: 0xa8774f });
-  const post = new Mesh(new BoxGeometry(0.1, 1.7, 0.1), wood);
-  post.position.y = 0.85;
-  const text = /^\d+$/.test(label) ? `${label} 年` : label;
-  const face = toonMaterial({
-    map: signTexture(text, 384, 160, {
-      bg: "#e9cfa3",
-      fg: "#5a3a2a",
-      border: "#8a5a3a",
-      font: SERIF,
-    }),
-  });
-  const board = signBoard(1.3, 0.55, 0.06, wood, face);
-  board.position.y = 1.4;
-  g.add(post, board);
-  return finish(g);
 }

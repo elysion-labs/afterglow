@@ -12,25 +12,10 @@ import {
 } from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import {
-  COLUMNS,
-  PITCH_Z,
-  PLOT_D,
-  PLOT_W,
-  type Rect,
-  columnX,
-  layoutCemetery,
-  rowZ,
-} from "../model/layout.ts";
+import { PITCH_Z, PLOT_D, PLOT_W, type Rect, layoutCemetery, rowZ } from "../model/layout.ts";
 import type { Streamer } from "../model/streamers.ts";
 import { createRng } from "../model/weathering.ts";
-import {
-  GATE_HALF_WIDTH,
-  buildAislePath,
-  buildFence,
-  buildGate,
-  buildYearMarker,
-} from "./enclosure.ts";
+import { GATE_HALF_WIDTH, buildAislePath, buildFence, buildGate } from "./enclosure.ts";
 import { type TimeUniform, createLawn } from "./grass.ts";
 import { GRAVE_HEIGHT, OUTLINE_LAYER, Tombstone } from "./tombstone.ts";
 import { toonMaterial } from "./toon.ts";
@@ -42,16 +27,15 @@ const PATH_HALF = 0.6;
 
 export class Cemetery {
   readonly group = new Group();
-  /** Graves in layout order (by graduation date). */
+  /** Graves in `streamers.json` order. */
   readonly graves: Tombstone[] = [];
   /** The fenced area; the gate stands at (0, bounds.maxZ). */
   readonly bounds: Rect;
   private readonly byUid = new Map<string, Tombstone>();
   private readonly boxes: Box3[] = [];
 
-  constructor(input: readonly Streamer[], time: TimeUniform) {
-    const layout = layoutCemetery(input);
-    const streamers = layout.items;
+  constructor(streamers: readonly Streamer[], time: TimeUniform) {
+    const layout = layoutCemetery(streamers.length);
     this.bounds = layout.fence;
 
     const kerbs = new InstancedMesh(
@@ -91,20 +75,13 @@ export class Cemetery {
     });
     this.group.add(kerbs, gravel);
 
-    // Enclosure: fence sized to the layout, gate at the front, a path down the
-    // aisle and a signpost where each year's section begins.
+    // Enclosure: fence sized to the layout, gate at the front, a path down the aisle.
     const fence = layout.fence;
     const pathEnd = layout.plots.minZ - PLOT.d / 2;
     this.group.add(buildFence(fence, GATE_HALF_WIDTH), buildAislePath(fence.maxZ, pathEnd));
     const gate = buildGate("毕业纪念园");
     gate.position.z = fence.maxZ;
     this.group.add(gate);
-    const aisleEdge = columnX(COLUMNS / 2) - PLOT.w / 2;
-    for (const section of layout.sections) {
-      const marker = buildYearMarker(section.label);
-      marker.position.set(-aisleEdge - 0.15, 0, rowZ(section.firstRow) + PLOT.d / 2 + 0.5);
-      this.group.add(marker);
-    }
 
     // Plots grouped by row so the lawn can skip them cheaply.
     const rows = new Map<number, number[]>();

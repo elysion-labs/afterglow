@@ -24,7 +24,7 @@ root.innerHTML = `
   <div id="intro">
     <p class="eyebrow">毕业纪念园</p>
     <h1 id="count">加载中…</h1>
-    <p class="muted" id="introText">墓碑按名单顺序从入口往里排列，每逢新的毕业年份另起一排。拖动浏览，点击任意墓碑或搜索 UID / 名字前往扫墓。</p>
+    <p class="muted" id="introText">墓碑按名单顺序从入口往里排列。拖动浏览，点击任意墓碑或搜索 UID / 名字前往扫墓。</p>
   </div>
   <div id="detail" hidden>
     <button id="back" class="back" type="button">← 返回墓园</button>
