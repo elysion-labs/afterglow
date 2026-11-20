@@ -12,39 +12,47 @@ import {
 } from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
-import { PITCH_Z, layoutGrid } from "../model/layout.ts";
+import {
+  COLUMNS,
+  PITCH_Z,
+  PLOT_D,
+  PLOT_W,
+  type Rect,
+  columnX,
+  layoutCemetery,
+  rowZ,
+} from "../model/layout.ts";
 import type { Streamer } from "../model/streamers.ts";
 import { createRng } from "../model/weathering.ts";
+import {
+  GATE_HALF_WIDTH,
+  buildAislePath,
+  buildFence,
+  buildGate,
+  buildYearMarker,
+} from "./enclosure.ts";
 import { type TimeUniform, createLawn } from "./grass.ts";
 import { GRAVE_HEIGHT, OUTLINE_LAYER, Tombstone } from "./tombstone.ts";
 import { toonMaterial } from "./toon.ts";
 
 /** Each grave sits in its own kerbed gravel plot. */
-const PLOT = { w: 2.5, d: 2.4, kerb: 0.1, kerbH: 0.09, gap: 0.6, graveZ: -0.3 };
-
-export interface Bounds {
-  minX: number;
-  maxX: number;
-  minZ: number;
-  maxZ: number;
-}
+const PLOT = { w: PLOT_W, d: PLOT_D, kerb: 0.1, kerbH: 0.09, gap: 0.6, graveZ: -0.3 };
+/** Half width of the stepping-stone path; no lawn grows there. */
+const PATH_HALF = 0.6;
 
 export class Cemetery {
   readonly group = new Group();
+  /** Graves in layout order (by graduation date). */
   readonly graves: Tombstone[] = [];
-  /** Extents of all plots. */
-  readonly bounds: Bounds;
+  /** The fenced area; the gate stands at (0, bounds.maxZ). */
+  readonly bounds: Rect;
   private readonly byUid = new Map<string, Tombstone>();
   private readonly boxes: Box3[] = [];
 
-  constructor(streamers: readonly Streamer[], time: TimeUniform) {
-    const layout = layoutGrid(streamers.length);
-    this.bounds = {
-      minX: layout.minX - PLOT.w / 2,
-      maxX: layout.maxX + PLOT.w / 2,
-      minZ: layout.minZ - PLOT.d / 2,
-      maxZ: layout.maxZ + PLOT.d / 2,
-    };
+  constructor(input: readonly Streamer[], time: TimeUniform) {
+    const layout = layoutCemetery(input);
+    const streamers = layout.items;
+    this.bounds = layout.fence;
 
     const kerbs = new InstancedMesh(
       kerbGeometry(),
@@ -83,25 +91,37 @@ export class Cemetery {
     });
     this.group.add(kerbs, gravel);
 
+    // Enclosure: fence sized to the layout, gate at the front, a path down the
+    // aisle and a signpost where each year's section begins.
+    const fence = layout.fence;
+    const pathEnd = layout.plots.minZ - PLOT.d / 2;
+    this.group.add(buildFence(fence, GATE_HALF_WIDTH), buildAislePath(fence.maxZ, pathEnd));
+    const gate = buildGate("毕业纪念园");
+    gate.position.z = fence.maxZ;
+    this.group.add(gate);
+    const aisleEdge = columnX(COLUMNS / 2) - PLOT.w / 2;
+    for (const section of layout.sections) {
+      const marker = buildYearMarker(section.label);
+      marker.position.set(-aisleEdge - 0.15, 0, rowZ(section.firstRow) + PLOT.d / 2 + 0.5);
+      this.group.add(marker);
+    }
+
     // Plots grouped by row so the lawn can skip them cheaply.
     const rows = new Map<number, number[]>();
-    const rowOf = (z: number) => Math.round((z - layout.minZ) / PITCH_Z);
-    for (const p of layout.positions) {
-      const key = rowOf(p.z);
-      rows.set(key, [...(rows.get(key) ?? []), p.x]);
-    }
-    const margin = 10;
+    for (const p of layout.positions) rows.set(p.row, [...(rows.get(p.row) ?? []), p.x]);
+    const margin = 12;
     this.group.add(
       createLawn(
         {
-          minX: this.bounds.minX - margin,
-          maxX: this.bounds.maxX + margin,
-          minZ: this.bounds.minZ - margin,
-          maxZ: this.bounds.maxZ + margin,
+          minX: fence.minX - margin,
+          maxX: fence.maxX + margin,
+          minZ: fence.minZ - margin,
+          maxZ: fence.maxZ + margin,
           exclude: (x, z) => {
-            const key = rowOf(z);
-            if (Math.abs(z - (layout.minZ + key * PITCH_Z)) > PLOT.d / 2) return false;
-            return (rows.get(key) ?? []).some((px) => Math.abs(x - px) < PLOT.w / 2);
+            if (Math.abs(x) < PATH_HALF && z < fence.maxZ + 0.5 && z > pathEnd) return true;
+            const row = Math.round(-z / PITCH_Z);
+            if (Math.abs(z - rowZ(row)) > PLOT.d / 2) return false;
+            return (rows.get(row) ?? []).some((px) => Math.abs(x - px) < PLOT.w / 2);
           },
         },
         time,

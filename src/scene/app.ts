@@ -222,6 +222,7 @@ export class GraveApp {
     const c = this.controls;
     c.enablePan = true;
     c.screenSpacePanning = false;
+    c.zoomToCursor = true;
     c.mouseButtons = { LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE };
     c.touches = { ONE: TOUCH.PAN, TWO: TOUCH.DOLLY_ROTATE };
     c.minDistance = 4;
@@ -235,6 +236,7 @@ export class GraveApp {
   private configureFocus(): void {
     const c = this.controls;
     c.enablePan = false;
+    c.zoomToCursor = false;
     c.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE };
     c.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_ROTATE };
     c.minDistance = 1.8;

@@ -1,5 +1,13 @@
 import { describe, expect, it, vi } from "vite-plus/test";
-import { PITCH_X, PITCH_Z, layoutGrid } from "./layout.ts";
+import {
+  AISLE,
+  COLUMNS,
+  FILL_ORDER,
+  PITCH_X,
+  PITCH_Z,
+  graduationTime,
+  layoutCemetery,
+} from "./layout.ts";
 import { searchStreamers } from "./search.ts";
 import { type Streamer, formatDate, normalizeStreamers } from "./streamers.ts";
 
@@ -72,28 +80,86 @@ describe("normalizeStreamers", () => {
   });
 });
 
-describe("layoutGrid", () => {
-  it("places every grave on a unique grid cell", () => {
-    for (const n of [1, 2, 7, 40, 101]) {
-      const { positions } = layoutGrid(n);
-      expect(positions).toHaveLength(n);
-      const keys = new Set(positions.map((p) => `${p.x.toFixed(3)},${p.z.toFixed(3)}`));
-      expect(keys.size).toBe(n);
-    }
+describe("graduation dates", () => {
+  it("parses common formats and rejects garbage", () => {
+    expect(graduationTime("2024-05-01")).toBe(Date.UTC(2024, 4, 1));
+    expect(graduationTime("2024.5.1")).toBe(Date.UTC(2024, 4, 1));
+    expect(graduationTime("2024/05")).toBe(Date.UTC(2024, 4, 1));
+    expect(graduationTime("")).toBeNull();
+    expect(graduationTime("2024-13-01")).toBeNull();
+    expect(graduationTime("someday")).toBeNull();
+  });
+});
+
+describe("layoutCemetery", () => {
+  const g = (id: string, graduatedAt: string) => ({ id, graduatedAt });
+  const year = (y: number, n: number) =>
+    Array.from({ length: n }, (_, i) =>
+      g(`${y}-${i}`, `${y}-${String((i % 12) + 1).padStart(2, "0")}-01`),
+    );
+
+  it("keeps the JSON order and starts a new row whenever the year changes", () => {
+    const input = [...year(2025, 3), ...year(2023, COLUMNS + 2), ...year(2024, 1)];
+    const l = layoutCemetery(input);
+    expect(l.items.map((i) => i.id)).toEqual(input.map((i) => i.id));
+    expect(l.sections.map((s) => [s.label, s.firstRow, s.rows, s.count])).toEqual([
+      ["2025", 0, 1, 3],
+      ["2023", 1, 2, COLUMNS + 2],
+      ["2024", 3, 1, 1],
+    ]);
+    expect(l.rows).toBe(4);
+    expect(l.positions[0]).toMatchObject({ row: 0, col: COLUMNS / 2 - 1, z: 0 });
+    expect(l.positions[3]).toMatchObject({ row: 1, col: COLUMNS / 2 - 1, z: -PITCH_Z });
   });
 
-  it("uses the pitch and centres the grid", () => {
-    const l = layoutGrid(40);
-    expect(l.minX).toBeCloseTo(-l.maxX);
-    expect(l.minZ).toBeCloseTo(-l.maxZ);
-    const xs = [...new Set(l.positions.map((p) => p.x))].sort((a, b) => a - b);
+  it("only groups consecutive entries of the same year", () => {
+    const l = layoutCemetery([g("a", "2023-01"), g("b", "2024-01"), g("c", "2023-06")]);
+    expect(l.sections.map((s) => s.label)).toEqual(["2023", "2024", "2023"]);
+  });
+
+  it("never moves existing graves when entries are appended", () => {
+    const base = [...year(2023, 5), ...year(2024, 7)];
+    const before = layoutCemetery(base);
+    const after = layoutCemetery([...base, g("late", "2022-03-01"), ...year(2025, 2)]);
+    expect(after.positions.slice(0, base.length)).toEqual(before.positions);
+  });
+
+  it("labels graves without a usable date", () => {
+    const l = layoutCemetery([g("u", ""), ...year(2022, 1)]);
+    expect(l.sections.map((s) => s.label)).toEqual(["未记录", "2022"]);
+  });
+
+  it("opens a central aisle and keeps the fence width fixed", () => {
+    const small = layoutCemetery(year(2024, 1));
+    const big = layoutCemetery(year(2024, 50));
+    expect(small.fence.minX).toBe(big.fence.minX);
+    expect(small.fence.maxX).toBe(-small.fence.minX);
+    expect(big.fence.minZ).toBeLessThan(small.fence.minZ);
+    const xs = [...new Set(big.positions.map((p) => p.x))].sort((a, b) => a - b);
+    expect(xs).toHaveLength(COLUMNS);
     expect(xs[1]! - xs[0]!).toBeCloseTo(PITCH_X);
-    const zs = [...new Set(l.positions.map((p) => p.z))].sort((a, b) => a - b);
-    expect(zs[1]! - zs[0]!).toBeCloseTo(PITCH_Z);
+    const mid = COLUMNS / 2;
+    expect(xs[mid]! - xs[mid - 1]!).toBeCloseTo(PITCH_X + AISLE);
   });
 
-  it("fills the front row first", () => {
-    const l = layoutGrid(10);
-    expect(l.positions[0]!.z).toBe(l.maxZ);
+  it("handles an empty cemetery", () => {
+    const l = layoutCemetery([]);
+    expect(l.positions).toEqual([]);
+    expect(l.rows).toBe(1);
+    expect(l.fence.maxZ).toBeGreaterThan(l.fence.minZ);
+  });
+});
+
+describe("FILL_ORDER", () => {
+  it("is a permutation that alternates outwards from the aisle", () => {
+    expect([...FILL_ORDER].sort((a, b) => a - b)).toEqual(
+      Array.from({ length: COLUMNS }, (_, i) => i),
+    );
+    expect(FILL_ORDER.slice(0, 4)).toEqual([
+      COLUMNS / 2 - 1,
+      COLUMNS / 2,
+      COLUMNS / 2 - 2,
+      COLUMNS / 2 + 1,
+    ]);
   });
 });
