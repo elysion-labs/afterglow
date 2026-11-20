@@ -162,7 +162,7 @@ export class Tombstone {
 
   constructor(streamer: Streamer, position: Vector3, time: TimeUniform) {
     this.streamer = streamer;
-    this.lastSweptAt = loadLastSwept(streamer.uid);
+    this.lastSweptAt = loadLastSwept(streamer);
     this.group.position.copy(position);
     this.group.name = streamer.uid;
 

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vite-plus/test";
 import { AISLE, COLUMNS, FILL_ORDER, PITCH_X, PITCH_Z, layoutCemetery } from "./layout.ts";
 import { searchStreamers } from "./search.ts";
-import { type Streamer, formatDate, normalizeStreamers } from "./streamers.ts";
+import { type Streamer, formatDate, loadLastSwept, normalizeStreamers } from "./streamers.ts";
 
 const s = (uid: string, name: string): Streamer => ({
   uid,
@@ -125,5 +125,26 @@ describe("FILL_ORDER", () => {
       COLUMNS / 2 - 2,
       COLUMNS / 2 + 1,
     ]);
+  });
+});
+
+describe("loadLastSwept (demo fallback)", () => {
+  const now = Date.UTC(2026, 10, 20);
+  const day = 86_400_000;
+
+  it("never predates the graduation day", () => {
+    for (let i = 0; i < 50; i++) {
+      const grad = now - 10 * day;
+      const t = loadLastSwept({ ...s(`u${i}`, "x"), graduatedAt: "2026-11-10" }, now);
+      expect(t).toBeGreaterThanOrEqual(grad);
+      expect(t).toBeLessThanOrEqual(now);
+    }
+  });
+
+  it("is deterministic per uid and ignores unparseable dates", () => {
+    const a = loadLastSwept({ ...s("42", "x"), graduatedAt: "" }, now);
+    expect(loadLastSwept({ ...s("42", "x"), graduatedAt: "" }, now)).toBe(a);
+    expect(a).toBeLessThanOrEqual(now);
+    expect(a).toBeGreaterThan(now - 241 * day);
   });
 });

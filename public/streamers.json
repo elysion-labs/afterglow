@@ -1,362 +1,180 @@
 [
   {
-    "uid": "727756838",
-    "name": "鹿角Shika",
-    "roomId": "22870119",
-    "debutAt": "2019-01-26",
-    "graduatedAt": "2020-06-04",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#f59e9e"
+    "uid": "370687372",
+    "name": "紫纪Shiki",
+    "roomId": "22111414",
+    "debutAt": "",
+    "graduatedAt": "2021-07-27"
   },
   {
-    "uid": "600717962",
-    "name": "星屑 Mira",
-    "roomId": "22402717",
-    "debutAt": "2019-07-05",
-    "graduatedAt": "2020-06-07",
-    "epitaph": "感谢相遇，后会有期",
-    "color": "#7fd8be"
+    "uid": "370689210",
+    "name": "萨麦尔Samael",
+    "roomId": "22111450",
+    "debutAt": "",
+    "graduatedAt": "2021-07-27"
   },
   {
-    "uid": "532721950",
-    "name": "橘猫Neko",
-    "roomId": "22034023",
-    "debutAt": "2019-03-19",
-    "graduatedAt": "2020-12-27",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#c38fff"
+    "uid": "474593910",
+    "name": "林伊Eli",
+    "roomId": "21622687",
+    "debutAt": "2019-10-14",
+    "graduatedAt": "2021-10-30"
   },
   {
-    "uid": "746401007",
-    "name": "雨宫Ame",
-    "roomId": "22489697",
-    "debutAt": "2019-05-22",
-    "graduatedAt": "2021-03-24",
-    "epitaph": "这里永远为你们留一盏灯",
-    "color": "#7fd8be"
+    "uid": "690608701",
+    "name": "犬童Kendou",
+    "roomId": "22778617",
+    "debutAt": "",
+    "graduatedAt": "2021-11-24"
   },
   {
-    "uid": "553590521",
-    "name": "栗子 マロン",
-    "roomId": "22594117",
-    "debutAt": "2020-05-22",
-    "graduatedAt": "2021-09-10",
-    "epitaph": "感谢相遇，后会有期",
-    "color": "#ffa8e2"
+    "uid": "474593912",
+    "name": "白祁Seven",
+    "roomId": "21622694",
+    "debutAt": "2019-10-14",
+    "graduatedAt": "2022-01-25"
   },
   {
-    "uid": "868257926",
-    "name": "千纸鹤Tsuru",
-    "roomId": "22195233",
-    "debutAt": "2019-10-30",
-    "graduatedAt": "2021-09-17",
-    "epitaph": "记得按时吃饭，好好睡觉",
-    "color": "#9ad0ff"
+    "uid": "351609538",
+    "name": "珈乐Carol",
+    "roomId": "22634198",
+    "debutAt": "2020-11-23",
+    "graduatedAt": "2022-05-10",
+    "epitaph": "独一无二的小狼公主，晚安。"
   },
   {
-    "uid": "794969513",
-    "name": "白桃Peach",
-    "roomId": "22754122",
-    "debutAt": "2020-11-28",
-    "graduatedAt": "2021-10-22",
-    "epitaph": "我们在下一个世界线见",
-    "color": "#8fb8ff"
+    "uid": "472821519",
+    "name": "喵月nyatsuki",
+    "roomId": "21615277",
+    "debutAt": "",
+    "graduatedAt": "2022-09-30",
+    "epitaph": "百年后在月球上相见吧！"
   },
   {
-    "uid": "531451049",
-    "name": "月见 つき",
-    "roomId": "22614601",
-    "debutAt": "2020-12-17",
-    "graduatedAt": "2021-12-06",
-    "epitaph": "雨停了，但歌声还在",
-    "color": "#ffa8e2"
+    "uid": "558070436",
+    "name": "清良Kiyora",
+    "roomId": "22389323",
+    "debutAt": "",
+    "graduatedAt": "2022-10-15"
   },
   {
-    "uid": "493223820",
-    "name": "风铃 Fuurin",
-    "roomId": "22871815",
-    "debutAt": "2019-03-11",
-    "graduatedAt": "2021-12-25",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#8fb8ff"
+    "uid": "472845978",
+    "name": "有加plus",
+    "roomId": "21613353",
+    "debutAt": "",
+    "graduatedAt": "2022-10-30"
   },
   {
-    "uid": "849751435",
-    "name": "晴空 Sora",
-    "roomId": "22661618",
-    "debutAt": "2019-09-07",
-    "graduatedAt": "2022-01-16",
-    "epitaph": "雨停了，但歌声还在",
-    "color": "#b5e48c"
+    "uid": "480745939",
+    "name": "罗伊Roi",
+    "roomId": "21696953",
+    "debutAt": "2019-12-01",
+    "graduatedAt": "2022-11-11"
   },
   {
-    "uid": "470459501",
-    "name": "灯笼 Akari",
-    "roomId": "22631087",
-    "debutAt": "2020-04-12",
-    "graduatedAt": "2022-01-20",
-    "epitaph": "雨停了，但歌声还在",
-    "color": "#8fb8ff"
+    "uid": "319810877",
+    "name": "星也seiya",
+    "roomId": "21763337",
+    "debutAt": "",
+    "graduatedAt": "2022-11-25"
   },
   {
-    "uid": "458282862",
-    "name": "葵花ひまわり",
-    "roomId": "22866404",
-    "debutAt": "2020-09-09",
-    "graduatedAt": "2022-02-05",
-    "epitaph": "不要哭，要笑着说再见",
-    "color": "#7fd8be"
+    "uid": "628292885",
+    "name": "金克茜Jinxy",
+    "roomId": "22459139",
+    "debutAt": "",
+    "graduatedAt": "2023-01-31"
   },
   {
-    "uid": "319994953",
-    "name": "枫叶 Momiji",
-    "roomId": "22054492",
-    "debutAt": "2020-05-13",
-    "graduatedAt": "2022-07-03",
-    "epitaph": "不要哭，要笑着说再见",
-    "color": "#f59e9e"
+    "uid": "666726803",
+    "name": "伊莎贝拉",
+    "roomId": "22470189",
+    "debutAt": "",
+    "graduatedAt": "2023-02-14"
   },
   {
-    "uid": "581102250",
-    "name": "秋刀Sanma",
-    "roomId": "22786644",
-    "debutAt": "2021-10-09",
-    "graduatedAt": "2022-10-04",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#ffd86b"
+    "uid": "558070434",
+    "name": "露露娜Ruruna",
+    "roomId": "22459102",
+    "debutAt": "",
+    "graduatedAt": "2023-07-08"
   },
   {
-    "uid": "672176002",
-    "name": "墨鸦 Karasu",
-    "roomId": "22140536",
-    "debutAt": "2021-02-26",
-    "graduatedAt": "2022-12-18",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#8fb8ff"
+    "uid": "690608690",
+    "name": "恋诗夜Koxia",
+    "roomId": "23260932",
+    "debutAt": "",
+    "graduatedAt": "2023-07-10"
   },
   {
-    "uid": "742910519",
-    "name": "花火 Hanabi",
-    "roomId": "22387099",
-    "debutAt": "2019-12-22",
-    "graduatedAt": "2022-12-22",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#b5e48c"
+    "uid": "741520",
+    "name": "茶冷",
+    "roomId": "33942",
+    "debutAt": "",
+    "graduatedAt": "2023-07-17"
   },
   {
-    "uid": "386386270",
-    "name": "霜降 Shimo",
-    "roomId": "22539474",
-    "debutAt": "2020-03-04",
-    "graduatedAt": "2022-12-25",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#b5e48c"
+    "uid": "477342747",
+    "name": "星弥Hoshimi",
+    "roomId": "21672022",
+    "debutAt": "2019-11-09",
+    "graduatedAt": "2023-07-30"
   },
   {
-    "uid": "632537278",
-    "name": "银铃 リン",
-    "roomId": "22827478",
-    "debutAt": "2020-12-22",
-    "graduatedAt": "2023-03-09",
-    "epitaph": "我们在下一个世界线见",
-    "color": "#ffd86b"
+    "uid": "628292881",
+    "name": "卡欧斯Chaos",
+    "roomId": "22389314",
+    "debutAt": "",
+    "graduatedAt": "2023-08-20"
   },
   {
-    "uid": "619806179",
-    "name": "露珠 Tsuyu",
-    "roomId": "22640306",
-    "debutAt": "2021-01-21",
-    "graduatedAt": "2023-03-23",
-    "epitaph": "我们在下一个世界线见",
-    "color": "#b5e48c"
+    "uid": "477306079",
+    "name": "真绯瑠mahiru",
+    "roomId": "21672024",
+    "debutAt": "2019-11-09",
+    "graduatedAt": "2023-09-27"
   },
   {
-    "uid": "544090213",
-    "name": "桃枝 Momo",
-    "roomId": "22242367",
-    "debutAt": "2022-03-16",
-    "graduatedAt": "2023-05-12",
-    "epitaph": "这里永远为你们留一盏灯",
-    "color": "#f59e9e"
+    "uid": "666726800",
+    "name": "星宸Sirius",
+    "roomId": "22470210",
+    "debutAt": "",
+    "graduatedAt": "2023-09-30"
   },
   {
-    "uid": "410673448",
-    "name": "星野 Hoshi",
-    "roomId": "22357229",
-    "debutAt": "2020-07-23",
-    "graduatedAt": "2023-07-30",
-    "epitaph": "我们在下一个世界线见",
-    "color": "#f59e9e"
+    "uid": "690608694",
+    "name": "伊深Imi",
+    "roomId": "22605466",
+    "debutAt": "",
+    "graduatedAt": "2023-10-25"
   },
   {
-    "uid": "509080933",
-    "name": "青柠Lime",
-    "roomId": "22246727",
-    "debutAt": "2021-08-01",
-    "graduatedAt": "2023-08-15",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#ffb347"
+    "uid": "690608686",
+    "name": "茉里Mari",
+    "roomId": "22605463",
+    "debutAt": "",
+    "graduatedAt": "2023-10-29"
   },
   {
-    "uid": "358305290",
-    "name": "薄荷ハッカ",
-    "roomId": "22479344",
-    "debutAt": "2022-03-11",
-    "graduatedAt": "2023-09-23",
-    "epitaph": "不要哭，要笑着说再见",
-    "color": "#9ad0ff"
+    "uid": "690608706",
+    "name": "田野柴Tanoshiba",
+    "roomId": "22605469",
+    "debutAt": "",
+    "graduatedAt": "2023-11-18"
   },
   {
-    "uid": "877601396",
-    "name": "海盐Mio",
-    "roomId": "22812485",
-    "debutAt": "2020-10-18",
-    "graduatedAt": "2023-10-21",
-    "epitaph": "这里永远为你们留一盏灯",
-    "color": "#f59e9e"
+    "uid": "672346917",
+    "name": "向晚大魔王",
+    "roomId": "22625025",
+    "debutAt": "2020-12-02",
+    "graduatedAt": "2024-04-19",
+    "epitaph": "今天，也依然要轻松快乐啊~"
   },
   {
-    "uid": "756577847",
-    "name": "铃兰 スズ",
-    "roomId": "22439773",
-    "debutAt": "2021-12-17",
-    "graduatedAt": "2023-11-07",
-    "epitaph": "感谢相遇，后会有期",
-    "color": "#b5e48c"
-  },
-  {
-    "uid": "463231104",
-    "name": "云雀Hibari",
-    "roomId": "22477698",
-    "debutAt": "2020-09-28",
-    "graduatedAt": "2023-11-30",
-    "epitaph": "雨停了，但歌声还在",
-    "color": "#ff8fb1"
-  },
-  {
-    "uid": "638347981",
-    "name": "苍蓝 Ao",
-    "roomId": "22793371",
-    "debutAt": "2021-01-16",
-    "graduatedAt": "2023-12-02",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#f59e9e"
-  },
-  {
-    "uid": "654215061",
-    "name": "汐见 Shio",
-    "roomId": "22185069",
-    "debutAt": "2022-02-24",
-    "graduatedAt": "2023-12-26",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#ff8fb1"
-  },
-  {
-    "uid": "658964443",
-    "name": "雪绒 ゆき",
-    "roomId": "22703043",
-    "debutAt": "2021-08-01",
-    "graduatedAt": "2024-01-05",
-    "epitaph": "谢谢你们陪我熬过的每一个夜晚",
-    "color": "#ffb347"
-  },
-  {
-    "uid": "389686527",
-    "name": "晚风 Kaze",
-    "roomId": "22832758",
-    "debutAt": "2021-11-28",
-    "graduatedAt": "2024-03-10",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#ff8fb1"
-  },
-  {
-    "uid": "550228922",
-    "name": "小满Koman",
-    "roomId": "22680308",
-    "debutAt": "2022-12-26",
-    "graduatedAt": "2024-07-14",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#f59e9e"
-  },
-  {
-    "uid": "361396579",
-    "name": "柚子茶 Yuzu",
-    "roomId": "22768865",
-    "debutAt": "2021-04-22",
-    "graduatedAt": "2024-07-20",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#7fd8be"
-  },
-  {
-    "uid": "603084861",
-    "name": "夜雨ヨル",
-    "roomId": "22370826",
-    "debutAt": "2022-12-14",
-    "graduatedAt": "2024-07-28",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#f59e9e"
-  },
-  {
-    "uid": "642718112",
-    "name": "糖霜Shuga",
-    "roomId": "22614570",
-    "debutAt": "2022-11-26",
-    "graduatedAt": "2024-09-18",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#ffa8e2"
-  },
-  {
-    "uid": "309070748",
-    "name": "雾岛Kiri",
-    "roomId": "22413130",
-    "debutAt": "2021-03-31",
-    "graduatedAt": "2024-12-29",
-    "epitaph": "今天也辛苦了，晚安",
-    "color": "#ffd86b"
-  },
-  {
-    "uid": "678064122",
-    "name": "白鸮 しろ",
-    "roomId": "22184178",
-    "debutAt": "2022-07-24",
-    "graduatedAt": "2025-02-08",
-    "epitaph": "记得按时吃饭，好好睡觉",
-    "color": "#ffa8e2"
-  },
-  {
-    "uid": "500094675",
-    "name": "茶茶Chacha",
-    "roomId": "22536688",
-    "debutAt": "2022-06-05",
-    "graduatedAt": "2025-04-25",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#9ad0ff"
-  },
-  {
-    "uid": "876849572",
-    "name": "琥珀Amber",
-    "roomId": "22213960",
-    "debutAt": "2022-05-29",
-    "graduatedAt": "2025-05-13",
-    "epitaph": "打完这一把就毕业啦",
-    "color": "#f59e9e"
-  },
-  {
-    "uid": "352381323",
-    "name": "萤火ホタル",
-    "roomId": "22157570",
-    "debutAt": "2022-10-09",
-    "graduatedAt": "2025-05-20",
-    "epitaph": "记得按时吃饭，好好睡觉",
-    "color": "#9ad0ff"
-  },
-  {
-    "uid": "763173659",
-    "name": "绯樱 Sakura",
-    "roomId": "22153502",
-    "debutAt": "2022-12-19",
-    "graduatedAt": "2026-04-23",
-    "epitaph": "下一个夏天也要一起看烟花哦",
-    "color": "#9ad0ff"
+    "uid": "401480763",
+    "name": "真白花音",
+    "roomId": "21402309",
+    "debutAt": "2019-08-31",
+    "graduatedAt": "2026-05-01"
   }
 ]

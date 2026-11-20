@@ -11,6 +11,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { PITCH_Z } from "../model/layout.ts";
 import { type Streamer, saveLastSwept } from "../model/streamers.ts";
 import { DAY_MS, type Weathering } from "../model/weathering.ts";
 import { Cemetery } from "./cemetery.ts";
@@ -40,6 +41,16 @@ const CLEAN_TARGET = 0.8;
 /** Camera placement relative to a focused grave: between it and the next row. */
 const FOCUS_OFFSET = new Vector3(0.8, 1.45, 3.75);
 const FOCUS_LOOK = new Vector3(0, 1.05, 0);
+/** Zoom range while focused. */
+const FOCUS_MIN_DISTANCE = 1.8;
+const FOCUS_MAX_DISTANCE = 7.5;
+/**
+ * Close up the camera may look at the stone almost level. Once it backs past
+ * the next row (one PITCH_Z away), it must look down steeply enough for the
+ * line of sight to clear that row's headstones.
+ */
+const FOCUS_MAX_POLAR_NEAR = 1.5;
+const FOCUS_MAX_POLAR_FAR = Math.PI / 2 - Math.atan((GRAVE_HEIGHT + 0.2 - FOCUS_LOOK.y) / PITCH_Z);
 /** Pointer travel (px) under which a press counts as a click, not a drag. */
 const CLICK_SLOP = 6;
 
@@ -163,8 +174,8 @@ export class GraveApp {
   }
 
   /** Re-read persisted sweep times (after a reset). */
-  reload(lastSwept: (uid: string) => number): void {
-    for (const g of this.cemetery.graves) g.lastSweptAt = lastSwept(g.streamer.uid);
+  reload(lastSwept: (s: Streamer) => number): void {
+    for (const g of this.cemetery.graves) g.lastSweptAt = lastSwept(g.streamer);
     this.refresh();
   }
 
@@ -239,10 +250,10 @@ export class GraveApp {
     c.zoomToCursor = false;
     c.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE };
     c.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_ROTATE };
-    c.minDistance = 1.8;
-    c.maxDistance = 3.9;
+    c.minDistance = FOCUS_MIN_DISTANCE;
+    c.maxDistance = FOCUS_MAX_DISTANCE;
     c.minPolarAngle = 0.6;
-    c.maxPolarAngle = 1.5;
+    c.maxPolarAngle = FOCUS_MAX_POLAR_NEAR;
     c.minAzimuthAngle = -0.8;
     c.maxAzimuthAngle = 0.8;
   }
@@ -404,6 +415,14 @@ export class GraveApp {
       }
       return;
     }
+    if (this.focused) {
+      // Rise as the camera backs off, so the next row never blocks the view.
+      const d = this.camera.position.distanceTo(this.controls.target);
+      const x = Math.min(1, Math.max(0, (d - (PITCH_Z - 0.8)) / 1.2));
+      const k = x * x * (3 - 2 * x);
+      this.controls.maxPolarAngle =
+        FOCUS_MAX_POLAR_NEAR + (FOCUS_MAX_POLAR_FAR - FOCUS_MAX_POLAR_NEAR) * k;
+    }
     this.controls.update();
     if (!this.focused) {
       // Keep overview panning over the cemetery.
@@ -447,7 +466,9 @@ export class GraveApp {
       );
     }
 
-    const radius = this.focused ? 5 : this.extent + 4;
+    const radius = this.focused
+      ? Math.max(5, this.camera.position.distanceTo(this.controls.target) * 1.2)
+      : this.extent + 4;
     this.env.update(this.time.value, this.camera.position, this.controls.target, radius);
     this.post.render(this.renderer, this.scene, this.camera);
   };

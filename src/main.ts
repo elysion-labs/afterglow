@@ -224,7 +224,7 @@ async function main(): Promise<void> {
     $<HTMLInputElement>("offset").value = "0";
     $("offsetLabel").textContent = "+0 天";
     app.setTimeOffset(0);
-    app.reload(loadLastSwept);
+    app.reload((s) => loadLastSwept(s));
   });
 }
 

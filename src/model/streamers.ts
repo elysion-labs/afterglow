@@ -97,13 +97,16 @@ const STORAGE_KEY = "vtb-grave:lastSweptAt";
  * Stand-in for the shared backend: a real deployment stores one `lastSweptAt`
  * per uid on the server (no login needed, anyone can sweep). Graves never swept
  * on this device get a deterministic pseudo-random age so the demo cemetery
- * shows every stage of neglect.
+ * shows every stage of neglect, but never earlier than the graduation day:
+ * nobody could have swept the grave before it existed.
  */
-export function loadLastSwept(uid: string): number {
+export function loadLastSwept(s: Streamer, now = Date.now()): number {
   const all = readAll();
-  if (all[uid] !== undefined) return all[uid];
-  const r = createRng(hashString(`${uid}:age`))();
-  return Date.now() - Math.floor(r * r * 240) * DAY_MS;
+  if (all[s.uid] !== undefined) return all[s.uid];
+  const r = createRng(hashString(`${s.uid}:age`))();
+  const demo = now - Math.floor(r * r * 240) * DAY_MS;
+  const graduated = Date.parse(s.graduatedAt);
+  return Number.isNaN(graduated) ? demo : Math.min(now, Math.max(demo, graduated));
 }
 
 export function saveLastSwept(uid: string, ts: number): void {
