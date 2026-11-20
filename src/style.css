@@ -1,0 +1,345 @@
+:root {
+  --oshi: #8fb8ff;
+  --ink: #3b2440;
+  --paper: rgba(255, 247, 242, 0.82);
+  font:
+    15px/1.5 "Noto Sans SC",
+    "PingFang SC",
+    "Microsoft YaHei",
+    system-ui,
+    sans-serif;
+  color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #f2b6a0;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  touch-action: none;
+}
+
+.stage canvas {
+  display: block;
+}
+
+.card,
+.lab {
+  position: fixed;
+  padding: 14px 18px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--ink);
+  backdrop-filter: blur(6px);
+}
+
+.card {
+  top: 18px;
+  left: 18px;
+  width: 260px;
+}
+
+.lab {
+  right: 18px;
+  bottom: 18px;
+  width: 260px;
+  display: grid;
+  gap: 10px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+}
+
+h1 {
+  margin: 2px 0 0;
+  font-size: 22px;
+  text-shadow: 2px 2px 0 var(--oshi);
+}
+
+.days {
+  margin: 2px 0 10px;
+  font-size: 13px;
+}
+
+.stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.stats li {
+  display: grid;
+  grid-template-columns: 3em 1fr;
+  align-items: center;
+  font-size: 13px;
+}
+
+.stats i {
+  height: 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 99px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.stats b {
+  display: block;
+  height: 100%;
+  background: #b59a7d;
+  transition: width 0.2s;
+}
+
+.stats .clean b {
+  background: var(--oshi);
+}
+
+.stats em {
+  font-style: normal;
+}
+
+.hint {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lab label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.lab output {
+  justify-self: end;
+  margin-top: -1.5em;
+  font-variant-numeric: tabular-nums;
+}
+
+.lab select,
+.lab button {
+  font: inherit;
+  padding: 3px 8px;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.lab input[type="range"] {
+  accent-color: var(--oshi);
+}
+
+.lab .row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lab .check {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lab button {
+  cursor: pointer;
+}
+
+.muted {
+  margin: 6px 0 0;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.meta {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+.meta a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration-color: var(--oshi);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.back {
+  margin: -2px 0 8px;
+  padding: 2px 10px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink);
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 99px;
+  cursor: pointer;
+}
+
+.back:hover {
+  background: var(--oshi);
+}
+
+/* ---- Search ---- */
+.search {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  translate: -50% 0;
+  width: min(360px, calc(100vw - 40px));
+  z-index: 2;
+}
+
+.search input {
+  width: 100%;
+  padding: 10px 16px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  box-shadow: 3px 3px 0 var(--ink);
+  outline: none;
+  backdrop-filter: blur(6px);
+}
+
+.search input:focus {
+  box-shadow: 3px 3px 0 var(--oshi);
+}
+
+.search ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 6px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 var(--ink);
+  backdrop-filter: blur(6px);
+}
+
+.search li button {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.search li button:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.search li i {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+}
+
+.search li small {
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.search li.empty {
+  padding: 6px 10px;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* ---- Hover label above a grave ---- */
+.label {
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 3px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  box-shadow: 2px 2px 0 var(--c, var(--oshi));
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 80px;
+  translate: -50% -20px;
+  padding: 10px 18px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 99px;
+  box-shadow: 3px 3px 0 var(--oshi);
+  font-weight: 700;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast.show {
+  animation: toast 3.2s ease forwards;
+}
+
+@keyframes toast {
+  10%,
+  80% {
+    opacity: 1;
+    translate: -50% 0;
+  }
+  100% {
+    opacity: 0;
+    translate: -50% -10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .search {
+    top: 10px;
+  }
+  .card {
+    top: 66px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+  .lab {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    width: auto;
+  }
+}
